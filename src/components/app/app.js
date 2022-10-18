@@ -29,23 +29,49 @@ class App extends Component {
         })
     }
 
-    addPlayer= (event, name, skill) => {
-        event.preventDefault();
-        console.log(222)
+    addPlayer= (name, skill) => {
+        if(name && skill) {
+            const newPlayer ={name, skill, increase: false , id: this.maxId++ ,like: false}
+
+            this.setState(({data}) => {
+                const newData = [...data, newPlayer]
+                return{
+                    data: newData
+                }
+            })
+        }
+
     }
 
+    onToggleProp = (id, prop) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if (item.id === id) {
+                    return {...item, [prop]: !item[prop]}
+                }
+                return item;
+            })
+        }))
+    }
+
+    
+
     render() {
-        
+        const players = this.state.data.length;
+        const increased = this.state.data.filter(elem => elem.increase === true).length
         return (
             <div className='app'>
-                <AppInfo/>
+                <AppInfo
+                players={players}
+                increased={increased}/>
                 <div className="search-panel">
                     <SearchPanel/>
                     <AppFilter/>
                 </div>
                 <Employeeslist 
                     data={this.state.data}
-                    onDelete={this.deletePlayer}/>
+                    onDelete={this.deletePlayer}
+                    onToggleProp={this.onToggleProp}/>
                 <EmployeesAddForm
                     onAdd={this.addPlayer}/>
             </div>

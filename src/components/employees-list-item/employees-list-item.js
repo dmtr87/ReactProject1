@@ -1,32 +1,11 @@
-import { Component } from "react";
 import "./employees-list-item.css";
 
-class EmployeesListItem extends Component {
+const EmployeesListItem = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            increase: false,
-            like: false
-        }
-    }
+    
 
-    onIncrease = () => {
-        this.setState((state) => ({
-            increase: !state.increase
-        }))
-    }
-
-    addLike = () => {
-        this.setState((state) => ({
-            like: !state.like
-        }))
-    }
-
-    render () {
-
-        const {name, skill,onDelete} = this.props
-        const {increase,like} = this.state
+        const {name, skill, onDelete, onToggleProp, increase, like} = props
+        
 
 
 
@@ -43,13 +22,13 @@ class EmployeesListItem extends Component {
         return (
             <li className= {className}>
                 <span className="list-group-item-label"
-                onClick={this.addLike}>
+                onClick={onToggleProp} data-toggle="like">
                     {name}</span>
                 <input type="text" className="list-group-item-input" defaultValue={"skill:" + skill}/>
                 <div className='d-flex justify-content-center align-items-center'>
                     <button type="button"
                         className="btn-cookie btn-sm "
-                        onClick={this.onIncrease}>
+                        onClick={onToggleProp} data-toggle="increase">
                         <i className="fas fa-cookie"></i>
                     </button>
     
@@ -63,7 +42,7 @@ class EmployeesListItem extends Component {
             </li>
         )
         
-    }
+   
 
 
 }
